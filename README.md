@@ -8,7 +8,8 @@ This repository contains my solution for **Natural Language Processing and Text 
 .
 ├── requirements.txt        # Python dependencies
 ├── README.md               # This documentation
-├── data/                   # (Not committed) directory for raw datasets
+├── LICENSE.txt             # License notice kept at repository root
+├── data/                   # Dataset files used in this homework
 ├── src/
 │   └── main.py             # Training, evaluation, and prediction script
 ├── models/
@@ -16,8 +17,6 @@ This repository contains my solution for **Natural Language Processing and Text 
 └── results/
     └── eng.testb.pred      # Prediction file for the test set
 ```
-
-> **Note:** The original data files (e.g., `eng.train`, `eng.testa`, `eng.testb` and the corresponding `.openNLP` versions) are not included in this repository. Please download or place them manually under your local `data/` directory.
 
 ## 2. Environment Setup
 
@@ -58,11 +57,15 @@ D:\proj\HW3_NER\data
 
 (or another path of your choice).
 
-## 4. How to Run
+## 4. Dataset Source
+
+This homework uses the **Broad Twitter Corpus** from the GitHub repository [`entity-recognition-datasets`](https://github.com/juand-r/entity-recognition-datasets). The dataset included in this repository is distributed under the **MIT License**. The original license notice is preserved in `data/LICENSE.txt`, and an additional copy is also kept at the repository root as `LICENSE.txt` for clearer repository-level attribution.
+
+## 5. How to Run
 
 From the project root (`.`), run the following command in your terminal or PowerShell.
 
-### 4.1 Use the standard files
+### 5.1 Use the standard files
 
 ```bash
 python src/main.py --data-dir "D:/proj/HW3_NER/data"
@@ -78,7 +81,7 @@ This will:
 6. Save the trained model to `models/crf_ner_model.pkl`.
 7. Save the test predictions to `results/eng.testb.pred`.
 
-### 4.2 Use the OpenNLP-converted files
+### 5.2 Use the OpenNLP-converted files
 
 If you want to use the `.openNLP` versions of the data, run:
 
@@ -92,9 +95,9 @@ In this case, the script will use:
 - `eng.testa.openNLP`
 - `eng.testb.openNLP`
 
-## 5. Implementation Details
+## 6. Implementation Details
 
-### 5.1 Data Reader
+### 6.1 Data Reader
 
 The script `src/main.py` implements a simple **CoNLL reader**:
 
@@ -104,7 +107,7 @@ The script `src/main.py` implements a simple **CoNLL reader**:
 
 This makes the code robust to minor column differences between the original and `.openNLP` variants.
 
-### 5.2 Feature Extraction
+### 6.2 Feature Extraction
 
 For each token, the model uses a standard CRF feature set, including:
 
@@ -115,7 +118,7 @@ For each token, the model uses a standard CRF feature set, including:
 
 These features are commonly used for classic NER baselines.
 
-### 5.3 Model
+### 6.3 Model
 
 The model is a **Conditional Random Field (CRF)** implemented via `sklearn-crfsuite`:
 
@@ -131,19 +134,7 @@ You can modify `c1` and `c2` via command-line arguments to perform simple hyperp
 python src/main.py --data-dir "D:/proj/HW3_NER/data" --c1 0.05 --c2 0.01
 ```
 
-### 5.4 Evaluation Metrics
-
-### 5.5 Experimental Results
-
-Two sets of hyperparameters were tested on the test set:
-
-- **Baseline (c1 = 0.1, c2 = 0.1)**\
-  Precision = 0.8087, Recall = 0.7603, F1 = 0.7837, Accuracy = 0.9569
-- **Tuned (c1 = 0.05, c2 = 0.01)**\
-  Precision = 0.8138, Recall = 0.7689, F1 = 0.7907, Accuracy = 0.9584
-
-In the final report, the tuned setting was used as the main result.
-
+### 6.4 Evaluation Metrics
 
 The script uses the `seqeval` library to compute standard sequence labeling metrics on the **test set**:
 
@@ -162,16 +153,27 @@ TOKEN GOLD_TAG PRED_TAG
 
 separated by blank lines between sentences.
 
-## 6. Reproducibility
+### 6.5 Experimental Results
+
+Two sets of hyperparameters were tested on the test set:
+
+- **Baseline (c1 = 0.1, c2 = 0.1)**\
+  Precision = 0.8087, Recall = 0.7603, F1 = 0.7837, Accuracy = 0.9569
+- **Tuned (c1 = 0.05, c2 = 0.01)**\
+  Precision = 0.8138, Recall = 0.7689, F1 = 0.7907, Accuracy = 0.9584
+
+In the final report, the tuned setting was used as the main result.
+
+## 7. Reproducibility
 
 - Randomness is mainly from CRF optimization; for strict reproducibility you may set a fixed `random_state` in the CRF constructor.
 - As long as the same data and hyperparameters are used, the results should be very similar across runs.
 
-## 7. Team Members and Responsibilities
+## 8. Team Members and Responsibilities
 
-This homework was completed as an **individual assignment**. All parts (implementation, experiments, and documentation) were done by **曹榮次(112AB0057)**.
+This homework was completed as an **individual assignment**. All parts (implementation, experiments, and documentation) were done by **曹榮次 (112AB0057)**.
 
-## 8. How to Submit
+## 9. How to Submit
 
 1. Make sure your local project contains:
    - `requirements.txt`
@@ -181,7 +183,7 @@ This homework was completed as an **individual assignment**. All parts (implemen
 2. Zip the project directory or push it to a **GitHub** repository as required by the course.
 3. Upload the zip file or GitHub link to the iSchool+ assignment entry `[HW#3]`.
 
-## 9. Possible Extensions (Optional)
+## 10. Possible Extensions (Optional)
 
 If you want to further improve the model (optional, not required for this baseline solution), you could:
 
