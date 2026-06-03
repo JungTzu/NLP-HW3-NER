@@ -1,0 +1,4 @@
+numpy
+scikit-learn
+sklearn-crfsuite
+seqeval
